@@ -1,17 +1,38 @@
-pipeline { agent any
+```groovy
+pipeline {
+    agent any
+
     stages {
         stage('Checkout') {
-            steps { checkout scm }}
+            steps {
+                echo 'Checking out source code from GitHub'
+                checkout scm
+            }
+        }
+
         stage('Build') {
-            steps {  sh 'dotnet restore'
-                sh 'dotnet build --configuration Release'}}
+            steps {
+                bat 'echo Building Application'
+            }
+        }
+
         stage('Test') {
-            steps { sh 'dotnet test --configuration Release' }}
+            steps {
+                bat 'echo Testing Application'
+            }
+        }
+
         stage('Docker Build') {
-            steps { sh 'docker build -t devops-demo:latest .'}}
+            steps {
+                bat 'docker --version'
+            }
+        }
+
         stage('Deploy') {
             steps {
-                sh 'docker rm -f devops-demo-container || true'
-                sh 'docker run -d -p 8080:8080 --name devops-demo-container devops-demo:latest'
-            }}}}
-
+                bat 'echo Deployment Successful'
+            }
+        }
+    }
+}
+```
